@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
+import { API_BASE_URL } from "./config/api";
 import HomePage from "./components/HomePage";
 import ServicesPage from "./components/ServicesPage";
 import ContactPage from "./components/ContactPage";
@@ -17,7 +18,7 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      axios.get('http://localhost:4000/api/v1/auth/me', { headers: { Authorization: `Bearer ${token}` } })
+      axios.get(`${API_BASE_URL}/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
        .then(response => setUser(response.data.user))
        .catch(() => localStorage.removeItem("token"));
     }

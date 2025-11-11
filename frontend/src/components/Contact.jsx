@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { API_BASE_URL } from "../config/api";
 import "./Contact.css";
 
 const Contact = () => {
@@ -13,7 +14,7 @@ const Contact = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/v1/message/send",
+        `${API_BASE_URL}/message/send`,
         {
           name,
           email,

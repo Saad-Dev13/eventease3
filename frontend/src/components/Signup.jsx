@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 import "./Signup.css";
 
 const Signup = ({ setUser }) => {
@@ -13,7 +14,7 @@ const Signup = ({ setUser }) => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4000/api/v1/auth/signup", {
+      const res = await axios.post(`${API_BASE_URL}/auth/signup`, {
         email,
         password,
         role,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import './AdminDashboard.css';
@@ -26,7 +27,7 @@ const AdminDashboard = ({ user, onLogout }) => {
   // Fetch events
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/v1/event/');
+      const response = await axios.get(`${API_BASE_URL}/event/`);
       setEvents(response.data);
     } catch (error) {
       toast.error('Failed to fetch events');
@@ -36,7 +37,7 @@ const AdminDashboard = ({ user, onLogout }) => {
   // Fetch messages
   const fetchMessages = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/v1/message/all', {
+      const response = await axios.get(`${API_BASE_URL}/message/all`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessages(response.data.messages);
@@ -56,13 +57,13 @@ const AdminDashboard = ({ user, onLogout }) => {
     try {
       if (editingEvent) {
         // Update event
-        await axios.put(`http://localhost:4000/api/v1/event/update/${editingEvent._id}`, eventForm, {
+        await axios.put(`${API_BASE_URL}/event/update/${editingEvent._id}`, eventForm, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('Event updated successfully!');
       } else {
         // Create event
-        await axios.post('http://localhost:4000/api/v1/event/create', eventForm, {
+        await axios.post(`${API_BASE_URL}/event/create`, eventForm, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('Event created successfully!');
@@ -81,7 +82,7 @@ const AdminDashboard = ({ user, onLogout }) => {
   const deleteEvent = async (eventId) => {
     if (window.confirm('Are you sure you want to delete this event?')) {
       try {
-        await axios.delete(`http://localhost:4000/api/v1/event/delete/${eventId}`, {
+        await axios.delete(`${API_BASE_URL}/event/delete/${eventId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('Event deleted successfully!');
@@ -96,7 +97,7 @@ const AdminDashboard = ({ user, onLogout }) => {
   const deleteMessage = async (messageId) => {
     if (window.confirm('Are you sure you want to delete this message?')) {
       try {
-        await axios.delete(`http://localhost:4000/api/v1/message/delete/${messageId}`, {
+        await axios.delete(`${API_BASE_URL}/message/delete/${messageId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('Message deleted successfully!');

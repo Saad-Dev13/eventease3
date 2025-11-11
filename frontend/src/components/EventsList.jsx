@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 import Event from './Event';
 import './EventsList.css';
 
@@ -11,7 +12,7 @@ const EventsList = ({ user }) => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/v1/event/');
+        const response = await axios.get(`${API_BASE_URL}/event/`);
         setEvents(response.data);
         setLoading(false);
       } catch (error) {
