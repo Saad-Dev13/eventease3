@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  mongo:
+    image: mongo:latest
+    container_name: eventease_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    image: saaddev13/eventease-backend:latest
+    container_name: eventease_backend
+    depends_on:
+      - mongo
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./backend/config/.env
+
+  frontend:
+    image: saaddev13/eventease-frontend:latest
+    container_name: eventease_frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+
+volumes:
+  mongo-data:
+
