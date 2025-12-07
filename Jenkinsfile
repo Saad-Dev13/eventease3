@@ -34,7 +34,7 @@ pipeline {
                   ls -la testcases/
                   
                   echo "=== Installing Maven (if not present) ==="
-                  which mvn || (apt-get update && apt-get install -y maven)
+                  which mvn || (sudo apt-get update && sudo apt-get install -y maven)
                   
                   echo "=== Running Maven tests directly on host ==="
                   cd testcases
