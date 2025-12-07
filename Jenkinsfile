@@ -28,20 +28,22 @@ pipeline {
         }
 
         stage('Test (Selenium)') {
-            steps {
-                sh '''
-                  echo "=== Verifying testcases directory on host ==="
-                  ls -la testcases/
+    steps {
+        sh '''
+          echo "=== Verifying testcases directory on host ==="
+          ls -la testcases/
 
-                  echo "=== Running Maven tests in container ==="
-                  docker run --rm \
-                    -v "$PWD/testcases":/usr/src/app \
-                    -w /usr/src/app \
-                    markhobson/maven-chrome:jdk-11 \
-                    mvn test -DbaseUrl=http://16.171.139.26:5173
-                '''
-            }
-        }
+          echo "PWD is: $PWD"
+          echo "=== Running Maven tests in container ==="
+          docker run --rm \
+            -v "$PWD/testcases":/usr/src/app \
+            -w /usr/src/app \
+            markhobson/maven-chrome:jdk-11 \
+            mvn test -DbaseUrl=http://16.171.139.26:5173
+        '''
+    }
+}
+
     }
 
     post {
