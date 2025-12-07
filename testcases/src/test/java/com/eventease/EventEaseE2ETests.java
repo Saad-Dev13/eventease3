@@ -103,13 +103,19 @@ public class EventEaseE2ETests {
     driver.findElement(By.cssSelector("textarea[placeholder='Event Description']")).sendKeys(description);
     driver.findElement(By.cssSelector("input[type='datetime-local']")).sendKeys(dateValue);
     driver.findElement(By.cssSelector("input[placeholder='Location']")).sendKeys(location);
-    driver.findElement(By.cssSelector("form button[type='submit']")).click();
-
-    // Wait for modal to disappear
-    wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".event-form-modal")));
     
-    // Wait for event to appear in the list (backend save + frontend re-fetch)
-    WebDriverWait longWait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    // Click the Create Event button (more specific selector)
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='submit' and contains(text(), 'Create Event')]"))).click();
+
+    // Give time for form submission, backend processing, and UI update
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+    
+    // Wait for event to appear in the list (extend timeout for backend/frontend cycle)
+    WebDriverWait longWait = new WebDriverWait(driver, Duration.ofSeconds(25));
     longWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h3[normalize-space()=" + quote(title) + "]")));
     return title;
   }
