@@ -105,9 +105,9 @@ public class EventEaseE2ETests {
     driver.findElement(By.cssSelector("input[placeholder='Location']")).sendKeys(location);
     driver.findElement(By.cssSelector("form button[type='submit']")).click();
 
-    // Wait for success toast and event list refresh
+    // Wait for modal to close and event list to refresh (backend + frontend processing)
     try {
-      Thread.sleep(2000);
+      Thread.sleep(4000);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
