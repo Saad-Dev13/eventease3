@@ -34,7 +34,7 @@ pipeline {
                     -v "$PWD":/workspace \
                     -w /workspace/testcases \
                     markhobson/maven-chrome:jdk-11 \
-                    bash -c "cp -r /workspace/testcases/* . 2>/dev/null; ls -la; mvn test -DbaseUrl=http://16.171.139.26:5173"
+                    bash -c "cp -r /workspace/testcases/* . && ls -la && mvn test -DbaseUrl=http://16.171.139.26:5173"
                 '''
             }
         }
