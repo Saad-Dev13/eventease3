@@ -105,13 +105,12 @@ public class EventEaseE2ETests {
     driver.findElement(By.cssSelector("input[placeholder='Location']")).sendKeys(location);
     driver.findElement(By.cssSelector("form button[type='submit']")).click();
 
-    // Wait for modal to close and event list to refresh (backend + frontend processing)
-    try {
-      Thread.sleep(4000);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h3[normalize-space()=" + quote(title) + "]")));
+    // Wait for modal to disappear
+    wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".event-form-modal")));
+    
+    // Wait for event to appear in the list (backend save + frontend re-fetch)
+    WebDriverWait longWait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    longWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h3[normalize-space()=" + quote(title) + "]")));
     return title;
   }
 
