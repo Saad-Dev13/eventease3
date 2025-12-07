@@ -1,34 +1,34 @@
-version: "3.8"
-services:
-  mongo:
-    image: mongo:latest
-    container_name: eventease_mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
+pipeline {
+    agent any
 
-  backend:
-    image: saaddev13/eventease-backend:latest   # base image from Part‑I
-    container_name: eventease_backend
-    depends_on:
-      - mongo
-    ports:
-      - "4000:4000"
-    env_file:
-      - ./backend/config/.env
-    volumes:
-      - ./backend:/usr/src/app          # attach code volume (assignment requirement)
+    stages {
+        stage('Checkout') {
+            steps {
+                // Jenkins already knows repo/branch from the job config
+                checkout scm
+            }
+        }
 
-  frontend:
-    image: saaddev13/eventease-frontend:latest
-    container_name: eventease_frontend
-    depends_on:
-      - backend
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend:/usr/src/app         # attach code volume
-    environment:
-      - VITE_BACKEND_URL=http://16.171.139.26:4000
-      - VITE_API_BASE_URL=http://16.171.139.26:4000/api/v1
+        stage('Pull Code') {
+            steps {
+                // Optional extra safety: ensures workspace is on latest commit
+                git url: 'https://github.com/Saad-Dev13/eventease3.git', branch: 'main'
+            }
+        }
+
+        stage('Build & Run Docker Compose') {
+            steps {
+                sh '''
+                  docker-compose down || true
+                  docker-compose up --build -d
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+    }
+}
