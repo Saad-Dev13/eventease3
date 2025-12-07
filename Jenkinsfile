@@ -34,7 +34,7 @@ pipeline {
                     -v "$PWD/testcases":/usr/src/app \
                     -w /usr/src/app \
                     markhobson/maven-chrome:jdk-11 \
-                    mvn test -DbaseUrl=http://16.171.139.26:5173
+                    bash -c "echo 'Files in container:' && ls -la && echo 'Running Maven...' && mvn test -DbaseUrl=http://16.171.139.26:5173"
                 '''
             }
         }
