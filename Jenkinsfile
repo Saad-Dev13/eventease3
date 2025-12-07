@@ -31,10 +31,9 @@ pipeline {
 
                   echo "=== Running Maven tests in container ==="
                   docker run --rm \
-                    -v "$PWD/testcases":/usr/src/app \
-                    -w /usr/src/app \
+                    -v "$PWD":/app \
                     markhobson/maven-chrome:jdk-11 \
-                    bash -c "echo 'Files in container:' && ls -la && echo 'Running Maven...' && mvn test -DbaseUrl=http://16.171.139.26:5173"
+                    mvn -f /app/testcases/pom.xml test -DbaseUrl=http://16.171.139.26:5173
                 '''
             }
         }
