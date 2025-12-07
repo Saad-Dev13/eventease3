@@ -28,23 +28,20 @@ pipeline {
         }
 
         stage('Test (Selenium)') {
-    steps {
-        sh '''
-          echo "=== Verifying testcases directory on host ==="
-          ls -la testcases/
-
-          echo "PWD is: $PWD"
-          echo "=== Running Maven tests in container ==="
-          docker run --rm \
-            -v "$PWD/testcases":/usr/src/app \
-            -w /usr/src/app \
-            markhobson/maven-chrome:jdk-11 \
-            mvn test -DbaseUrl=http://16.171.139.26:5173
-        '''
-    }
-}
-
-    }
+            steps {
+                sh '''
+                  echo "=== Verifying testcases directory on host ==="
+                  ls -la testcases/
+                  
+                  echo "=== Installing Maven (if not present) ==="
+                  which mvn || (apt-get update && apt-get install -y maven)
+                  
+                  echo "=== Running Maven tests directly on host ==="
+                  cd testcases
+                  mvn test -DbaseUrl=http://16.171.139.26:5173
+                '''
+            }
+        }    }
 
     post {
         always {
