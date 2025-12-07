@@ -105,6 +105,8 @@ public class EventEaseE2ETests {
     driver.findElement(By.cssSelector("input[placeholder='Location']")).sendKeys(location);
     driver.findElement(By.cssSelector("form button[type='submit']")).click();
 
+    // Wait for success toast and event list refresh
+    Thread.sleep(2000);
     wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h3[normalize-space()=" + quote(title) + "]")));
     return title;
   }

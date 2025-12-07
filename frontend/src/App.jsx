@@ -27,6 +27,7 @@ const App = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUser(null);
+    window.location.href = '/login';
   };
 
   // Protected route component for admin-only access
