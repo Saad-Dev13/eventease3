@@ -33,7 +33,16 @@ public class EventEaseE2ETests {
   @BeforeEach
   void setUp() {
     ChromeOptions options = new ChromeOptions();
-    options.addArguments("--headless=new", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
+    options.addArguments(
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--disable-extensions",
+        "--disable-software-rasterizer",
+        "--remote-allow-origins=*",
+        "--user-data-dir=/tmp/chrome-user-data"
+    );
     driver = new ChromeDriver(options);
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
     wait = new WebDriverWait(driver, Duration.ofSeconds(15));
