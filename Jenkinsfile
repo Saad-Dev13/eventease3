@@ -28,15 +28,11 @@ pipeline {
         stage('Test (Selenium)') {
             steps {
                 script {
-                    docker.image('maven:3.8.1-openjdk-17').inside('--network host -v /dev/shm:/dev/shm') {
-                        sh '''
-                          apt-get update && apt-get install -y wget gnupg
-                          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-                          sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-                          apt-get update && apt-get install -y google-chrome-stable
-                          cd testcases
-                          mvn test -DbaseUrl=http://16.171.139.26:5173
-                        '''
+                    docker.image('maven:3.8.1-openjdk-17').inside('--network host') {
+                        dir('testcases') {
+                            sh 'pwd && ls -la'
+                            sh 'mvn test -DbaseUrl=http://16.171.139.26:5173'
+                        }
                     }
                 }
             }
@@ -45,7 +41,7 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline finished.'
+            echo 'Pipeline finished. OK'
         }
     }
 }
