@@ -26,11 +26,13 @@ pipeline {
         stage('Test (Selenium)') {
             steps {
                 sh '''
+                  echo "=== Verifying testcases directory on host ==="
+                  ls -la testcases/
+                  echo "=== Running Maven tests in container ==="
                   docker run --rm \
                     -v "$PWD":/workspace \
-                    -w /workspace/testcases \
                     markhobson/maven-chrome \
-                    bash -c "ls -la && mvn test -DbaseUrl=http://16.171.139.26:5173"
+                    bash -c "ls -la /workspace/testcases && cd /workspace/testcases && mvn test -DbaseUrl=http://16.171.139.26:5173"
                 '''
             }
         }
