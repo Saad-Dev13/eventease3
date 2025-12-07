@@ -33,12 +33,13 @@ pipeline {
                   echo "=== Verifying testcases directory on host ==="
                   ls -la testcases/
                   
-                  echo "=== Installing Maven (if not present) ==="
-                  which mvn || (sudo apt-get update && sudo apt-get install -y maven)
-                  
-                  echo "=== Running Maven tests directly on host ==="
-                  cd testcases
-                  mvn test -DbaseUrl=http://16.171.139.26:5173
+                  echo "=== Running Maven tests using Maven Docker image ==="
+                  docker run --rm \
+                    --network host \
+                    -v "$PWD/testcases":/workspace \
+                    -w /workspace \
+                    maven:3.8.1-openjdk-17 \
+                    mvn test -DbaseUrl=http://16.171.139.26:5173
                 '''
             }
         }    }
