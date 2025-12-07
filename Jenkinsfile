@@ -6,25 +6,25 @@ pipeline {
     }
 
     stages {
-        stage('Pull Code') {
+        stage('Checkout') {
             steps {
-                git url: 'https://github.com/Saad-Dev13/eventease3.git', branch: 'main'
+                checkout scm
             }
         }
 
         stage('Build & Run Docker Compose') {
             steps {
-                script {
-                    sh 'docker-compose down'
-                    sh 'docker-compose up --build -d'
-                }
+                sh '''
+                  docker-compose down || true
+                  docker-compose up --build -d
+                '''
             }
         }
     }
 
     post {
         always {
-            echo "Pipeline finished."
+            echo 'Pipeline finished.'
         }
     }
 }
