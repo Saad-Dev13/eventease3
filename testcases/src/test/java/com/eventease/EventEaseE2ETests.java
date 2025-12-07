@@ -106,7 +106,11 @@ public class EventEaseE2ETests {
     driver.findElement(By.cssSelector("form button[type='submit']")).click();
 
     // Wait for success toast and event list refresh
-    Thread.sleep(2000);
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
     wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h3[normalize-space()=" + quote(title) + "]")));
     return title;
   }
