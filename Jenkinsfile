@@ -27,19 +27,14 @@ pipeline {
 
         stage('Test (Selenium)') {
             steps {
-                sh '''
-                  echo "=== Verifying testcases directory ==="
-                  pwd
-                  ls -la testcases/
-
-                  echo "=== Running Maven tests with mounted Jenkins workspace ==="
-                  docker run --rm \
-                    --network host \
-                    -v /var/jenkins_home/workspace/EventEase/testcases:/usr/src/app \
-                    -w /usr/src/app \
-                    maven:3.8.1-openjdk-17 \
-                    mvn test -DbaseUrl=http://16.171.139.26:5173
-                '''
+                script {
+                    docker.image('maven:3.8.1-openjdk-17').inside('--network host') {
+                        dir('testcases') {
+                            sh 'pwd && ls -la'
+                            sh 'mvn test -DbaseUrl=http://16.171.139.26:5173'
+                        }
+                    }
+                }
             }
         }
     }
