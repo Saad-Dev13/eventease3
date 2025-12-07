@@ -36,10 +36,10 @@ pipeline {
                   echo "=== Running Maven tests using Maven Docker image ==="
                   docker run --rm \
                     --network host \
-                    -v "$PWD/testcases":/workspace \
-                    -w /workspace \
+                    -v "$PWD":/app \
+                    -w /app/testcases \
                     maven:3.8.1-openjdk-17 \
-                    mvn test -DbaseUrl=http://16.171.139.26:5173
+                    bash -c "ls -la && mvn test -DbaseUrl=http://16.171.139.26:5173"
                 '''
             }
         }    }
