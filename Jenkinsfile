@@ -28,23 +28,16 @@ pipeline {
         stage('Test (Selenium)') {
             steps {
                 sh '''
-                  echo "=== Verifying testcases directory inside Jenkins container ==="
+                  echo "=== Verifying testcases directory ==="
                   pwd
                   ls -la testcases/
 
-                  echo "=== Preparing /tmp/testcases host directory ==="
-                  rm -rf /tmp/testcases
-                  mkdir -p /tmp/testcases
-                  cp -r testcases/* /tmp/testcases/
-
-                  echo "=== Contents of /tmp/testcases on host ==="
-                  ls -la /tmp/testcases
-
-                  echo "=== Running Maven tests in markhobson/maven-chrome ==="
+                  echo "=== Running Maven tests with mounted Jenkins workspace ==="
                   docker run --rm \
-                    -v /tmp/testcases:/usr/src/app \
+                    --network host \
+                    -v /var/jenkins_home/workspace/EventEase/testcases:/usr/src/app \
                     -w /usr/src/app \
-                    markhobson/maven-chrome:jdk-11 \
+                    maven:3.8.1-openjdk-17 \
                     mvn test -DbaseUrl=http://16.171.139.26:5173
                 '''
             }
