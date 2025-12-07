@@ -32,9 +32,17 @@ pipeline {
                   pwd
                   ls -la testcases/
 
+                  echo "=== Preparing /tmp/testcases host directory ==="
+                  rm -rf /tmp/testcases
+                  mkdir -p /tmp/testcases
+                  cp -r testcases/* /tmp/testcases/
+
+                  echo "=== Contents of /tmp/testcases on host ==="
+                  ls -la /tmp/testcases
+
                   echo "=== Running Maven tests in markhobson/maven-chrome ==="
                   docker run --rm \
-                    -v "$(pwd)/testcases":/usr/src/app \
+                    -v /tmp/testcases:/usr/src/app \
                     -w /usr/src/app \
                     markhobson/maven-chrome:jdk-11 \
                     mvn test -DbaseUrl=http://16.171.139.26:5173
