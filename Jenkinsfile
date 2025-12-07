@@ -28,12 +28,13 @@ pipeline {
                 sh '''
                   echo "=== Verifying testcases directory on host ==="
                   ls -la testcases/
-
+                  pwd
+                  
+                  echo "=== Debugging: what's in /app inside container ==="
+                  docker run --rm -v "$PWD":/app markhobson/maven-chrome:jdk-11 bash -c "ls -la /app/ && echo '---' && ls -la /app/testcases/ 2>&1 || echo 'testcases not found'"
+                  
                   echo "=== Running Maven tests in container ==="
-                  docker run --rm \
-                    -v "$PWD":/app \
-                    markhobson/maven-chrome:jdk-11 \
-                    mvn -f /app/testcases/pom.xml test -DbaseUrl=http://16.171.139.26:5173
+                  docker run --rm -v "$PWD":/app markhobson/maven-chrome:jdk-11 mvn -f /app/testcases/pom.xml test -DbaseUrl=http://16.171.139.26:5173
                 '''
             }
         }
