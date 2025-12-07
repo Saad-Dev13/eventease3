@@ -35,12 +35,8 @@ pipeline {
                   
                   echo "=== Running Maven tests using tar to copy files ==="
                   tar -czf /tmp/testcases.tar.gz testcases/
-                  docker run --rm \
-                    --network host \
-                    -v /tmp:/tmp \
-                    -w /workspace \
-                    maven:3.8.1-openjdk-17 \
-                    bash -c "cd /tmp && tar -xzf testcases.tar.gz && cd /tmp/testcases && mvn test -DbaseUrl=http://16.171.139.26:5173"
+                  
+                  docker run --rm --network host -v /tmp:/tmp -w /workspace maven:3.8.1-openjdk-17 bash -c "cd /tmp && tar -xzf testcases.tar.gz && cd /tmp/testcases && mvn test -DbaseUrl=http://16.171.139.26:5173"
                 '''
             }
         }    }
