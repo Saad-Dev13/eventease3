@@ -20,6 +20,18 @@ pipeline {
                 '''
             }
         }
+
+        stage('Test (Selenium)') {
+            steps {
+                sh '''
+                  docker run --rm \
+                    -v "$PWD":/workspace \
+                    -w /workspace/testcases \
+                    markhobson/maven-chrome \
+                    mvn test -DbaseUrl=http://16.171.139.26:5173
+                '''
+            }
+        }
     }
 
     post {
