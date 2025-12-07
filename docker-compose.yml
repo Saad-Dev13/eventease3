@@ -10,7 +10,9 @@ services:
       - mongo-data:/data/db
 
   backend:
-    image: saaddev13/eventease-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: eventease_backend
     depends_on:
       - mongo
@@ -22,7 +24,9 @@ services:
       - ./backend:/usr/src/app
 
   frontend:
-    image: saaddev13/eventease-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: eventease_frontend
     depends_on:
       - backend
