@@ -13,6 +13,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: saaddev13/eventease-backend:latest
     container_name: eventease_backend
     depends_on:
       - mongo
@@ -20,20 +21,17 @@ services:
       - "4000:4000"
     env_file:
       - ./backend/config/.env
-    volumes:
-      - ./backend:/usr/src/app
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    image: saaddev13/eventease-frontend:latest
     container_name: eventease_frontend
     depends_on:
       - backend
     ports:
       - "5173:5173"
-    volumes:
-      - ./frontend:/usr/src/app
     environment:
       - VITE_BACKEND_URL=http://16.171.139.26:4000
       - VITE_API_BASE_URL=http://16.171.139.26:4000/api/v1
