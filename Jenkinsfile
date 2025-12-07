@@ -8,7 +8,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                deleteDir()
                 checkout scm
+                sh 'ls -la testcases/ || echo "testcases directory not found"'
             }
         }
 
