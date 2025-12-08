@@ -4,7 +4,7 @@ pipeline {
     environment {
         COMPOSE_PROJECT_NAME = "eventease"
         STUDENT_EMAIL = "saad0934003@gmail.com"  
-        TEACHER_EMAIL = "qasimalik@gmail.com"  
+        TEACHER_EMAIL = "qasimalik@gmail.com"
     }
 
     stages {
@@ -108,7 +108,7 @@ Build URL: ${env.BUILD_URL}
                     body: emailBody
                 )
                 
-                echo "Pipeline finished. Email sent to ${env.STUDENT_EMAIL} and ${env.TEACHER_EMAIL}"
+                echo "Pipeline finishedd. Email sent to ${env.STUDENT_EMAIL} and ${env.TEACHER_EMAIL}"
             }
         }
     }
