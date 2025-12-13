@@ -1,4 +1,4 @@
-# EventEase2 - Complete Event Management System
+ # EventEase2 - Complete Event Management System
 
 EventEase2 is a full-stack MERN application designed for comprehensive event management. Features a professional admin dashboard, role-based authentication, and a beautiful dark-themed UI. Perfect for universities, organizations, or any event management needs.
 
